@@ -1,0 +1,3 @@
+Wind Power Analysis software
+---
+The scripts given are matlab scripts therefore must be compiled in matlbal software. The matlab version must be 2018a and above. Should yu choose to run them inmatlab software directly, all the file must be saved in matlab softwrae with their names unchnged. The wind speed and wind direction must be hourly data recorded fro atleast 1 year. The matrices of the two variables must be mutidimensional matrices. That is, the data must be entered in such a way that the matrices arre n by 24 format. The matrix of months and year are just n by 1 matricx that contains the month or the year each data entry was taken. This can easily be done in excell. A link to compiled application will be provided in less than 24 hrs.
