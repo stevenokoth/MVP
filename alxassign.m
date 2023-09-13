@@ -1,18 +1,29 @@
-WSD0=input('enter wind speed matrix\n');
-DirectionData=input('Enter wind direction data(Multidimentional matrix)\n');
-Month_data=input('enter the matrix of months\n');
-YearsData=input('enter the matrix of years\n');
-a=25;
-b=input('enter threshold percentage\n');
+Filepath1=input('Enter the file path to the excel workbook where your wind data (direction and speed data) is stored.\n');
+Sheetnumber1=input('Enter the sheet number conntaining the hourly windspeed data, make sure only wind speed data is stored here\n');
+cell11=input('Enter the cell number of the first wind speed data entry in exxcell sheet e.g A1\n');
+cell12=input('Enter the cell number of the last wind speed data enetry in excell sheet e.g C32\n');
+Sheetnumber2=input('enter the sheet number conntaining the corresponding hourly wind direction data\n');
+cell21=input('Enter the cell number of the first wind direction data entry in exxcell sheet e.g A1\n');
+cell22=input('Enter the cell number of the last wind direction data enetry in excell sheet e.g C32\n');
+Sheetnumber3=input('enter the sheet number conntaining the Time(month and year) vector whose elements are the month and year in cosecutive columns say A(month) and B(year) corresponding to each wind speed entry\n');
+cell31=input('Enterthe cell number of the first entry in months column vector data entry in excell sheet e.g A1\n');
+cell32=input('Enter the cell number of the last entry in months column vector in excell sheet e.g B32\n');
 c=input('enter number of months in a year\n');
+b=input('enter threshold percentage\n');
 density=input('input air density\n');
-label_x0=input('enter x_label for Hourly_mean:','S')
-label_y0=input('enter y_label for Hourly_mean:','S')
-label_x1=input('enter x_label for Daily_mean:','S')
-label_y1=input('enter y_label for Daily_mean:','S')
 
+%filename=input('Enter the File Name:Make sure this file has been created in your desktop\n');
+Range1=sprintf('%s:%s', cell11, cell12);
+Range2=sprintf('%s:%s', cell21, cell22);
+Range3 = sprintf('%s:%s', cell31, cell32);
+WSD0 = xlsread(Filepath1,Sheetnumber1,Range1)
+DirectionData = xlsread(Filepath1,Sheetnumber2,Range2)
+Time_data = xlsread(Filepath1,Sheetnumber3,Range3);
+Month_data=Time_data(:,1);
+YearsData=Time_data(:,2);
 %pointer matrices, that allows for the conservation of the arrangement of
 %the data in the matrices during dletion, insertion and so on
+a=25;
 Days_pointers= cumsum(ones(size(WSD0,1),24),1);
 Hours_pointers= repmat(1:24,size(WSD0,1),1);
 
@@ -125,8 +136,8 @@ for k=1:1:24
         %plotting mean wind speed varriation during the day
         figure1=figure();
         plot(Hours_of_day,Hourly_mean)
-        xlabel(label_x0);
-        ylabel(label_y0);
+        xlabel('Hours of the day hrs');
+        ylabel('Wind speed m/s');
         set(gca,'XTick',Hours_of_day)
         set(gca,'XTickLabel',str2mat('00:00','01:00','02:00','03:00','04:00','05:00','06:00','07:00','08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00'))
         grid on
@@ -134,7 +145,7 @@ for k=1:1:24
         %turbulence intensity plot
         figure3=figure();
         plot(Hours_of_day,Turbulence_intensity_daily)
-        xlabel(label_x0);
+        xlabel('Hours of the day hrs');
         ylabel('Turbulence intensity');
         set(gca,'XTick',Hours_of_day)
         set(gca,'XTickLabel',str2mat('00:00','01:00','02:00','03:00','04:00','05:00','06:00','07:00','08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00'))
@@ -396,4 +407,6 @@ FF=[F1 F];
 %The windrose of the whole time sampling period
 figure10=figure
       wind_rose(F,F1)%calling the wind_rose() function
+disp('Press any key to continue, you view your graphs before pressing any key')  % Press a key here.You can see the message 'Paused: Press any key' in        % the lower left corner of MATLAB window.
+pause;
 Reportte %report generation
